@@ -15,6 +15,13 @@
       "when": 1790776112150,
       "tag": "0001_parallel_carnage",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1790781694792,
+      "tag": "0002_kind_christian_walker",
+      "breakpoints": true
     }
   ]
 }

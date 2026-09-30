@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Header, Footer } from '@/components/news/chrome';
-export const metadata: Metadata = {title:{default:'Eskişehir Masası | Eskişehir haberleri ve canlı yayın',template:'%s | Eskişehir Masası'},description:'Eskişehir ve 14 ilçesinden haberler, resmi kurum açıklamaları, kültür sanat, spor ve YouTube canlı yayınları.',icons:{icon:'/favicon.svg',shortcut:'/favicon.svg'}};
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="tr"><body><a className="skip-link" href="#icerik">İçeriğe geç</a><Header/>{children}<Footer/></body></html>}
+import settings from '@/data/settings.json';
+import { SiteChrome } from '@/components/news/chrome';
+export const metadata: Metadata = {title:{default:settings.siteTitle+' | Eskişehir haberleri ve canlı yayın',template:'%s | '+settings.siteTitle},description:'Eskişehir ve 14 ilçesinden haberler, resmi kurum açıklamaları, kültür sanat, spor ve YouTube canlı yayınları.',icons:{icon:'/brand-symbol.png',shortcut:'/brand-symbol.png'}};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="tr"><body><a className="skip-link" href="#icerik">İçeriğe geç</a><SiteChrome>{children}</SiteChrome></body></html>}

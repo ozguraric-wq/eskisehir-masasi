@@ -1,0 +1,43 @@
+import {createRequire} from 'node:module';
+import {readFile,readdir} from 'node:fs/promises';
+const require=createRequire(import.meta.url);const wr=createRequire(require.resolve('wrangler/package.json'));const {Miniflare}=wr('miniflare');
+const root=new URL('../dist/server/',import.meta.url).pathname;const files=(await readdir(root,{recursive:true})).filter(x=>x.endsWith('.js')||x.endsWith('.mjs')).sort((a,b)=>a==='index.js'?-1:b==='index.js'?1:a.localeCompare(b));
+const mf=new Miniflare({modules:files.map(f=>({type:'ESModule',path:root+f})),modulesRoot:root,compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:{DB:'cms-verification'},r2Buckets:{BUCKET:'cms-media'},bindings:{CMS_ADMIN_EMAIL:'owner@example.com'},assets:{directory:new URL('../dist/client/',import.meta.url).pathname,routerConfig:{has_user_worker:true}},cf:false});
+const initialCount=JSON.parse(await readFile(new URL('../data/articles.json',import.meta.url),'utf8')).length;
+const auth={'oai-authenticated-user-id':'verified-test-user','oai-authenticated-user-email':'owner@example.com'};
+const request=(path,body,headers=auth)=>mf.dispatchFetch('https://test.example'+path,{method:body===undefined?'GET':'POST',headers:{...headers,...(body!==undefined?{origin:'https://test.example','content-type':'application/json'}:{})},body:body===undefined?undefined:JSON.stringify(body)});
+const expect=async(r,status)=>{if(r.status!==status)throw Error('Expected '+status+' got '+r.status+' '+await r.text());return r};
+try{
+ const db=await mf.getD1Database('DB');for(const f of (await readdir(new URL('../drizzle/',import.meta.url))).filter(f=>f.endsWith('.sql')).sort()){for(const stmt of (await readFile(new URL('../drizzle/'+f,import.meta.url),'utf8')).split('--> statement-breakpoint'))if(stmt.trim())await db.prepare(stmt).run()}
+ await expect(await request('/api/admin/state',undefined,{}),403);
+ await expect(await request('/api/admin/state',undefined,{...auth,'oai-authenticated-user-email':'other@example.com'}),403);
+ await expect(await mf.dispatchFetch('https://test.example/api/admin/state',{method:'POST',headers:{...auth,origin:'https://evil.example'},body:'{}'}),403);
+ console.log('Authorization and same-origin write guards passed');
+ let initial=await (await expect(await request('/api/admin/state'),200)).json();if(initial.state.articles.length!==initialCount)throw Error('Initial news missing');
+ const draft={...initial.state.articles[0],id:'test-draft',slug:'test-draft',status:'draft',title:'Private test draft'};initial.state.articles.push(draft);
+ let saved=await (await expect(await request('/api/admin/state',{state:initial.state,revision:0,label:'Test draft'}),200)).json();if(saved.revision!==1)throw Error('Revision not persisted');
+ await expect(await request('/api/admin/state',{state:initial.state,revision:0}),409);
+ let fresh=await (await request('/api/admin/state')).json();if(fresh.revision!==1||fresh.state.articles.length!==initialCount+1)throw Error('Persistence failed');
+ const bad=structuredClone(fresh.state);bad.articles[0].image='javascript:alert(1)';await expect(await request('/api/admin/state',{state:bad,revision:1}),400);
+ console.log('Durable save, input validation and optimistic locking passed');
+ const form=new FormData();form.set('file',new File([await readFile(new URL('../public/brand-symbol.png',import.meta.url))],'logo.png',{type:'image/png'}));form.set('alt','Test logo');
+ const encoded=new Request('https://test.example/api/admin/media',{method:'POST',body:form});
+ const media=await (await expect(await mf.dispatchFetch(encoded.url,{method:'POST',headers:{...auth,origin:'https://test.example','content-type':encoded.headers.get('content-type')},body:new Uint8Array(await encoded.arrayBuffer())}),201)).json();
+ await expect(await request('/api/admin/media/file?id='+media.id),200);
+ fresh.state.articles[0].image=media.path;
+ saved=await (await expect(await request('/api/admin/state',{state:fresh.state,revision:1,label:'Image saved'}),200)).json();
+ const release=await (await expect(await request('/api/admin/release',{revision:2}),201)).json();
+ const exported=await (await expect(await request('/api/publisher/latest',undefined,{}),200)).json();if(exported.release.snapshot.articles.some(a=>a.id==='test-draft')||exported.release.snapshot.articles.length!==initialCount||!exported.release.media.includes(media.id))throw Error('Draft leaked or media missing');
+ await expect(await request('/api/publisher/media?release='+release.id+'&id='+media.id,undefined,{}),200);
+ await expect(await request('/api/publisher/media?release='+release.id+'&id=unknown.png',undefined,{}),404);
+ saved.state.articles[0].title='Unpublished change';await expect(await request('/api/admin/state',{state:saved.state,revision:2}),200);
+ const ex2=await (await request('/api/publisher/latest')).json();if(ex2.release.snapshot.articles[0].title==='Unpublished change')throw Error('Release mutated');
+ const history=await (await request('/api/admin/revisions')).json();if(history.items.length!==3)throw Error('History not recorded');
+ await expect(await request('/api/admin/restore',{id:history.items[2].id,revision:3}),200);
+ const restored=await (await request('/api/admin/state')).json();if(restored.state.articles[0].image===media.path)throw Error('Restore failed');
+ await expect(await request('/api/publisher/ack',{id:release.id,status:'published',runUrl:'https://github.com/ozguraric-wq/eskisehir-masasi/actions/runs/123'},{'X-CMS-Publisher':'github-actions'}),200);
+ console.log('R2 upload, immutable release, draft exclusion, publisher acknowledgment, history and restore passed');
+ await expect(await request('/yonetim'),200);
+ for(const path of ['/','/piyasalar','/ilceler/alpu','/haber/anadolu-acilis'])await expect(await request(path),200);
+ console.log('CMS and public routes passed');
+}finally{await mf.dispose()}

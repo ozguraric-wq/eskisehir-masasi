@@ -28,7 +28,7 @@ mkdirSync(stage, {recursive: true});
 for (const path of ['app', 'components/news', 'components/ui', 'data', 'public', 'vendor', 'hooks']) {
   cpSync(join(root, path), join(stage, path), {recursive: true});
 }
-for (const path of ['app/api', 'app/chatgpt-auth.ts']) {
+for (const path of ['app/api', 'app/chatgpt-auth.ts', 'app/yonetim']) {
   rmSync(join(stage, path), {recursive: true, force: true});
 }
 write('lib/utils.ts', readFileSync(join(root, 'lib/utils.ts'), 'utf8'));
@@ -62,8 +62,8 @@ write('data/articles.json', JSON.stringify(articles));
 write('data/videos.json', JSON.stringify(JSON.parse(read('data/videos.json')).map(video => ({
   ...video, poster: asset(video.poster)
 }))));
-edit('app/layout.tsx', "icon:'/favicon.svg',shortcut:'/favicon.svg'",
-  `icon:'${basePath}/favicon.svg',shortcut:'${basePath}/favicon.svg'`);
+edit('app/layout.tsx', "icon:'/brand-symbol.png',shortcut:'/brand-symbol.png'",
+  `icon:'${basePath}/brand-symbol.png',shortcut:'${basePath}/brand-symbol.png'`);
 write('components/news/chrome.tsx', read('components/news/chrome.tsx')
   .replaceAll('action="/ara"', `action="${basePath}/ara/"`)
   .replaceAll('href="/rss.xml"', `href="${basePath}/rss.xml"`));
@@ -112,16 +112,17 @@ export const metadata = {title: 'Videolar'};
 export default function Page() { return <VideoCollection/>; }\n`);
 edit('app/kategori/[slug]/page.tsx', "@/app/videolar/page", "@/components/news/video-collection");
 
-// The GitHub target uses public, non-secret YouTube IDs from versioned settings.
-edit('app/canli-yayin/page.tsx', "import {env} from 'cloudflare:workers';", "import env from '@/data/live.json';");
-edit('app/canli-yayin/page.tsx', "export const dynamic='force-dynamic';", '');
+// Both targets use versioned, non-secret YouTube settings.
+write('app/yonetim/page.tsx', `export const metadata={title:'Yayın yönetimi',robots:{index:false,follow:false}};
+export default function Page(){return <main id="icerik" className="container page-content" style={{paddingTop:70}}><h1 style={{fontSize:32,fontWeight:800}}>Eskişehir Masası yönetimi</h1><p style={{margin:'20px 0'}}>Haber, görsel, manşet ve sayfa düzenlemeleri için güvenli yönetim panelini açın.</p><a className="red-button" href="https://eskisehir-masasi.ozgurarc.chatgpt.site/yonetim" target="_top">Yönetim paneline giriş</a></main>};`);
 
 // GitHub Pages has no database runtime. Do not expose non-working submission forms.
 const engagement = read('components/news/engagement.tsx').split('const reactions=')[0];
 write('components/news/engagement.tsx', engagement +
   '\nexport function Engagement(_props: {articleId: string}) { return null; }\n');
-write('components/news/contact.tsx', `export function ContactForm(_props: {subject?: string}) {
-  return <div className="info-box"><p>Bu yayında mesaj gönderimi henüz açık değil. Yayıncı iletişim bilgileri tamamlandığında bu sayfada duyurulacaktır.</p></div>;
+write('components/news/contact.tsx', `import settings from '@/data/settings.json';
+export function ContactForm(_props: {subject?: string}) {
+  return <div className="info-box">{settings.contactEmail?<p>Görüş ve haber önerilerinizi <a href={"mailto:"+settings.contactEmail}>{settings.contactEmail}</a> adresine gönderebilirsiniz.</p>:<p>Yayıncı iletişim bilgileri tamamlandığında bu sayfada duyurulacaktır.</p>}</div>;
 }\n`);
 const policies = {
   iletisim: ['Haber önerisi, iş birliği ve yayınlarımızla ilgili görüşleriniz için iletişim kanallarımız bu sayfada duyurulacaktır.'],
@@ -133,7 +134,9 @@ const policies = {
   'yayin-ilkeleri': ['Eskişehir Masası, yerel gelişmeleri açık kaynaklara dayandırır. Kaynak kurum, tarih ve özgün açıklamaya bağlantı haberlerde gösterilir.', 'Eski haberler arşiv olarak belirtilir. Kurum açıklamaları özetlenebilir; iddia, görüş ve olay bilgisi birbirinden ayrılır.']
 };
 edit('app/sayfa/[slug]/page.tsx', 'export async function generateMetadata',
-  `for (const [slug, paragraphs] of Object.entries(${JSON.stringify(policies)})) pages[slug].paragraphs = paragraphs;\nexport async function generateMetadata`);
+  `for (const [slug, paragraphs] of Object.entries(${JSON.stringify(policies)})) if (JSON.stringify(pages[slug].paragraphs)===JSON.stringify(defaultPages[slug].paragraphs)) pages[slug].paragraphs = paragraphs;\nexport async function generateMetadata`);
+
+write('app/sayfa/[slug]/page.tsx', read('app/sayfa/[slug]/page.tsx').replace("import {pages}","import {pages,defaultPages}"));
 
 for (const path of ['app/sitemap.xml/route.ts', 'app/rss.xml/route.ts']) {
   write(path, "export const dynamic = 'force-static';\n" + read(path)

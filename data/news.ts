@@ -1,7 +1,8 @@
+import categoryData from './categories.json';
 import news from './articles.json';
-export type Article={id:string;slug:string;title:string;summary:string;body:string[];date:string;source:string;sourceUrl:string;image:string;imageCredit?:string;gallery?:string[];categories:string[];district:string;featured?:boolean;videoId?:string;isArchive?:boolean;kind?:string};
+export type Article={id:string;slug:string;title:string;summary:string;body:string[];date:string;source:string;sourceUrl:string;image:string;imageCredit?:string;gallery?:string[];categories:string[];district:string;featured?:boolean;videoId?:string;isArchive?:boolean;kind?:string;seoTitle?:string;seoDescription?:string;headlineOrder?:number};
 export const articles:Article[]=news as Article[];
-export const categories=[['eskisehir','Eskişehir'],['turkiye','Türkiye'],['dunya','Dünya'],['siyaset','Siyaset'],['ekonomi','Ekonomi'],['spor','Spor'],['teknoloji','Teknoloji'],['magazin','Magazin'],['kultur-sanat','Kültür Sanat'],['yasam','Yaşam'],['saglik','Sağlık'],['egitim','Eğitim'],['video-analiz','Video Analiz'],['ozel','Özel'],['hayattan','Hayattan']];
+export const categories:string[][]=categoryData;
 export const districts=[['odunpazari','Odunpazarı'],['tepebasi','Tepebaşı'],['sivrihisar','Sivrihisar'],['cifteler','Çifteler'],['seyitgazi','Seyitgazi'],['alpu','Alpu'],['beylikova','Beylikova'],['gunyuzu','Günyüzü'],['han','Han'],['inonu','İnönü'],['mahmudiye','Mahmudiye'],['mihalgazi','Mihalgazi'],['mihaliccik','Mihalıççık'],['saricakaya','Sarıcakaya']];
 export const categoryName=(s:string)=>categories.find(x=>x[0]===s)?.[1]||s;
 export const districtName=(s:string)=>districts.find(x=>x[0]===s)?.[1]||'Eskişehir';

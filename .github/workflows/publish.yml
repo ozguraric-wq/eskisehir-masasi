@@ -1,0 +1,53 @@
+name: Eskişehir Masası yayın
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * *'
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Yayın paketini al
+        id: content
+        env:
+          CMS_SERVICE_TOKEN: ${{ secrets.CMS_SERVICE_TOKEN }}
+        run: node scripts/sync-cms.mjs pull
+      - name: Bağımlılıkları kur
+        if: steps.content.outputs.changed == 'true'
+        run: |
+          npm install --global pnpm@11.25.0
+          pnpm install --frozen-lockfile --ignore-scripts
+      - name: GitHub sayfalarını oluştur
+        if: steps.content.outputs.changed == 'true'
+        run: node scripts/build-github-pages.mjs
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.content.outputs.changed == 'true'
+        with:
+          path: out/github-pages
+      - uses: actions/deploy-pages@v4
+        if: steps.content.outputs.changed == 'true'
+        id: deployment
+      - name: Yayın sonucunu kaydet
+        if: always() && steps.content.outputs.release_id != ''
+        env:
+          CMS_SERVICE_TOKEN: ${{ secrets.CMS_SERVICE_TOKEN }}
+          CMS_RELEASE_ID: ${{ steps.content.outputs.release_id }}
+          CMS_PUBLISH_STATUS: ${{ steps.deployment.outcome == 'success' && 'published' || 'failed' }}
+        run: node scripts/sync-cms.mjs ack
