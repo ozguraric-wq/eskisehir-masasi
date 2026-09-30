@@ -1,0 +1,66 @@
+[
+  {
+    "slug": "odunpazari-turu",
+    "title": "Eskişehir Odunpazarı Tarihi Bölge’de kısa bir tur",
+    "publisher": "Odunpazarı Belediyesi",
+    "source_url": "https://www.odunpazari.bel.tr/video-galeri/eskisehir-odunpazari-tarihi-bolgede-kisa-bir-tur-",
+    "youtube_id": "8UQsy9SZFDU",
+    "video_url": "https://www.youtube.com/watch?v=8UQsy9SZFDU",
+    "embed_url": "https://www.youtube.com/embed/8UQsy9SZFDU",
+    "poster_url": "https://i.ytimg.com/vi/8UQsy9SZFDU/hqdefault.jpg",
+    "date": null,
+    "verification": "Official municipal iframe and YouTube oEmbed HTTP 200; author Odunpazarı Belediyesi.",
+    "poster_local_path": "/workspace/scratch/05aec992ff01/news-assets/odunpazari-turu-poster.jpg",
+    "poster": ""
+  },
+  {
+    "slug": "odunpazari-sanat",
+    "title": "Sanat Odunpazarı’nda / Eskişehir sanat şehri",
+    "publisher": "Odunpazarı Belediyesi",
+    "source_url": "https://www.odunpazari.bel.tr/video-galeri/sanat-odunpazarinda-eskisehir-sanat-sehri",
+    "youtube_id": "mNpvIOwPyc8",
+    "video_url": "https://www.youtube.com/watch?v=mNpvIOwPyc8",
+    "embed_url": "https://www.youtube.com/embed/mNpvIOwPyc8",
+    "poster_url": "https://i.ytimg.com/vi/mNpvIOwPyc8/hqdefault.jpg",
+    "date": null,
+    "verification": "Official municipal iframe and YouTube oEmbed HTTP 200; author Odunpazarı Belediyesi.",
+    "poster_local_path": "/workspace/scratch/05aec992ff01/news-assets/odunpazari-sanat-poster.jpg",
+    "poster": ""
+  },
+  {
+    "slug": "timelapse-sonbahar",
+    "title": "Timelapse Eskişehir: Sonbahar",
+    "publisher": "Eskişehir Büyükşehir Belediyesi",
+    "source_url": "https://www.eskisehir.bel.tr/videolar",
+    "video_url": "https://www.eskisehir.bel.tr/video/tanitim/18/video.mp4",
+    "poster_url": "https://www.eskisehir.bel.tr/video/tanitim/18/thumb.jpg",
+    "date": null,
+    "verification": "Official native video source. Range GET HTTP 206; Content-Type video/mp4; valid ISO base media ftyp header.",
+    "poster_local_path": "/workspace/scratch/05aec992ff01/news-assets/timelapse-sonbahar-poster.jpg",
+    "poster": "/news/timelapse-sonbahar-poster.webp"
+  },
+  {
+    "slug": "tarimsal-projeler",
+    "title": "Tarımsal Projeler",
+    "publisher": "Eskişehir Büyükşehir Belediyesi",
+    "source_url": "https://www.eskisehir.bel.tr/videolar",
+    "video_url": "https://www.eskisehir.bel.tr/video/tanitim/21/video.mp4",
+    "poster_url": "https://www.eskisehir.bel.tr/video/tanitim/21/thumb.jpg",
+    "date": null,
+    "verification": "Official native video source. Range GET HTTP 206; Content-Type video/mp4; valid ISO base media ftyp header.",
+    "poster_local_path": "/workspace/scratch/05aec992ff01/news-assets/tarimsal-projeler-poster.jpg",
+    "poster": "/news/tarimsal-projeler-poster.webp"
+  },
+  {
+    "slug": "eskisehir-tanitim",
+    "title": "Eskişehir Tanıtım",
+    "publisher": "Eskişehir Büyükşehir Belediyesi",
+    "source_url": "https://www.eskisehir.bel.tr/videolar",
+    "video_url": "https://www.eskisehir.bel.tr/video/tanitim/23/video.mp4",
+    "poster_url": "https://www.eskisehir.bel.tr/video/tanitim/23/thumb.jpg",
+    "date": null,
+    "verification": "Official native video source. Range GET HTTP 206; Content-Type video/mp4; valid ISO base media ftyp header.",
+    "poster_local_path": "/workspace/scratch/05aec992ff01/news-assets/eskisehir-tanitim-poster.jpg",
+    "poster": "/news/eskisehir-tanitim-poster.webp"
+  }
+]
