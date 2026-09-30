@@ -1,6 +1,8 @@
 // This Site remains owner-private. Dispatch authenticates service callers before this route.
-// This route exports only an explicitly queued public snapshot, never drafts or inbox data.
+// This route exports queued public snapshots, never drafts or inbox data.
+// A fresh installation can queue only the public content already shipped in source.
 import { body, bucket, CmsError, database, failure, mediaIds, response } from '@/lib/cms/server';
+import { initialState, publicSnapshot, validateState } from '@/lib/cms/model';
 export const dynamic = 'force-dynamic';
 type Ctx = {
     params: Promise<{
@@ -40,10 +42,23 @@ catch (e) {
     return failure(e);
 } }
 export async function POST(request: Request, { params }: Ctx) { try {
-    if ((await params).path.join('/') !== 'ack')
-        throw new CmsError('Bulunamadı.', 404);
     if (request.headers.get('X-CMS-Publisher') !== 'github-actions')
         throw new CmsError('Yayıncı isteği gerekli.', 403);
+    const path = (await params).path.join('/');
+    if (path === 'bootstrap') {
+        // Never accept caller-supplied content or overwrite an editor's saved state.
+        // D1 serializes this batch, including concurrent first-run requests.
+        const state = validateState(initialState()), data = JSON.stringify(state);
+        const snapshot = JSON.stringify(publicSnapshot(state));
+        const time = new Date().toISOString(), id = crypto.randomUUID(), db = database();
+        const results = await db.batch([
+            db.prepare('INSERT INTO cms_state (id,revision,data,updated_at,actor) SELECT ?,0,?,?,? WHERE NOT EXISTS (SELECT 1 FROM cms_state WHERE id=?) AND NOT EXISTS (SELECT 1 FROM cms_releases)').bind('main', data, time, 'source-bootstrap', 'main'),
+            db.prepare('INSERT INTO cms_releases (id,revision,data,created_at,status) SELECT ?,0,?,?,? FROM cms_state WHERE id=? AND revision=0 AND actor=? AND data=? AND NOT EXISTS (SELECT 1 FROM cms_releases)').bind(id, snapshot, time, 'queued', 'main', 'source-bootstrap', data)
+        ]);
+        return response({ bootstrapped: Boolean(results[1].meta.changes) });
+    }
+    if (path !== 'ack')
+        throw new CmsError('Bulunamadı.', 404);
     const b = await body(request);
     if (!['published', 'failed'].includes(b.status) || !/^https:\/\/github.com\/ozguraric-wq\/eskisehir-masasi\/actions\/runs\/\d+$/.test(b.runUrl))
         throw new CmsError('Geçersiz yayın sonucu.');

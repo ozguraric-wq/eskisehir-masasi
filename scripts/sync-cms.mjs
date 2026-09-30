@@ -9,7 +9,12 @@ if(process.argv[2]==='ack'){
  await request('/api/publisher/ack',{method:'POST',headers:{'Content-Type':'application/json','X-CMS-Publisher':'github-actions'},body:JSON.stringify({id:process.env.CMS_RELEASE_ID,status:process.env.CMS_PUBLISH_STATUS,runUrl:`https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`,message:process.env.CMS_PUBLISH_STATUS==='published'?'GitHub Pages yayını tamamlandı.':'Yayın tamamlanamadı. Ayrıntılar için GitHub işlem kaydını açın.'})});
 }else{
  if(!token){console.log('CMS connection not configured; source build only.');await output('changed',process.env.GITHUB_EVENT_NAME==='schedule'?'false':'true');process.exit(0)}
- const r=await request('/api/publisher/latest');if(!r.headers.get('content-type')?.includes('application/json'))throw Error('CMS did not return JSON');const {release}=await r.json();
+ const latest=async()=>{const r=await request('/api/publisher/latest');if(!r.headers.get('content-type')?.includes('application/json'))throw Error('CMS did not return JSON');return (await r.json()).release};
+ let release=await latest();
+ if(!release&&process.env.GITHUB_EVENT_NAME!=='schedule'){
+  await request('/api/publisher/bootstrap',{method:'POST',headers:{'X-CMS-Publisher':'github-actions'}});
+  release=await latest();
+ }
  if(!release){await output('changed',process.env.GITHUB_EVENT_NAME==='schedule'?'false':'true');process.exit(0)}
  const rebuild=process.env.GITHUB_EVENT_NAME!=='schedule'||release.status==='queued';
  if(!rebuild){await output('changed','false');process.exit(0)}
