@@ -29,7 +29,7 @@ try{
  const preserved=await (await request('/api/admin/state')).json();if(preserved.revision!==1||!preserved.state.articles.some(a=>a.id==='test-draft'))throw Error('Bootstrap overwrote editor state');
  const bad=structuredClone(fresh.state);bad.articles[0].image='javascript:alert(1)';await expect(await request('/api/admin/state',{state:bad,revision:1}),400);
  console.log('Durable save, input validation and optimistic locking passed');
- const form=new FormData();form.set('file',new File([await readFile(new URL('../public/brand-symbol.png',import.meta.url))],'logo.png',{type:'image/png'}));form.set('alt','Test logo');
+ const form=new FormData();form.set('file',new File([await readFile(new URL('../public/brand-microphone-26.png',import.meta.url))],'logo.png',{type:'image/png'}));form.set('alt','Test logo');
  const encoded=new Request('https://test.example/api/admin/media',{method:'POST',body:form});
  const media=await (await expect(await mf.dispatchFetch(encoded.url,{method:'POST',headers:{...auth,origin:'https://test.example','content-type':encoded.headers.get('content-type')},body:new Uint8Array(await encoded.arrayBuffer())}),201)).json();
  await expect(await request('/api/admin/media/file?id='+media.id),200);

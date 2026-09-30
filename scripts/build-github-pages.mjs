@@ -62,8 +62,8 @@ write('data/articles.json', JSON.stringify(articles));
 write('data/videos.json', JSON.stringify(JSON.parse(read('data/videos.json')).map(video => ({
   ...video, poster: asset(video.poster)
 }))));
-edit('app/layout.tsx', "icon:'/brand-symbol.png',shortcut:'/brand-symbol.png'",
-  `icon:'${basePath}/brand-symbol.png',shortcut:'${basePath}/brand-symbol.png'`);
+edit('app/layout.tsx', "icon:'/brand-microphone-26.png',shortcut:'/brand-microphone-26.png'",
+  `icon:'${basePath}/brand-microphone-26.png',shortcut:'${basePath}/brand-microphone-26.png'`);
 write('components/news/chrome.tsx', read('components/news/chrome.tsx')
   .replaceAll('action="/ara"', `action="${basePath}/ara/"`)
   .replaceAll('href="/rss.xml"', `href="${basePath}/rss.xml"`));
