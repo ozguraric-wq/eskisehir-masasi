@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ozguraric-wq.github.io/eskisehir-masasi/sitemap.xml

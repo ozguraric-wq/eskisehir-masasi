@@ -1,0 +1,2 @@
+:HL["/eskisehir-masasi/_next/static/css/5a58743b8b1171e7.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"kategori","param":null,"prefetchHints":4192,"slots":{"children":{"name":"slug","param":{"type":"d","key":"spor","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"MCiF6o5TcaG4XiEr6LrMR"}

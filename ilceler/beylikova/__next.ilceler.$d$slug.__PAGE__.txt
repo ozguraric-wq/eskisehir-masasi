@@ -1,0 +1,27 @@
+1:"$Sreact.fragment"
+2:I[9875,["169","static/chunks/169-0ce0a9fc27ac9e97.js","934","static/chunks/934-09177b6239e61bef.js","198","static/chunks/198-a97ea97fad4b38f4.js","663","static/chunks/663-51b2255b44a34ef1.js","859","static/chunks/859-a35e7762c81aaa64.js","875","static/chunks/875-cc7c8e7d246512a0.js","147","static/chunks/app/ilceler/%5Bslug%5D/page-98f351f88c41d54d.js"],"QueryListing"]
+3:I[1461,[],"OutletBoundary"]
+4:"$Sreact.suspense"
+8:I[1461,[],"ViewportBoundary"]
+9:I[1461,[],"MetadataBoundary"]
+a:I[9904,[],"IconMark"]
+c:I[4728,[],""]
+d:I[2590,[],""]
+11:I[8955,["169","static/chunks/169-0ce0a9fc27ac9e97.js","934","static/chunks/934-09177b6239e61bef.js","663","static/chunks/663-51b2255b44a34ef1.js","177","static/chunks/app/layout-9848f8de515108b6.js"],"Header"]
+12:I[169,["169","static/chunks/169-0ce0a9fc27ac9e97.js","934","static/chunks/934-09177b6239e61bef.js","198","static/chunks/198-a97ea97fad4b38f4.js","663","static/chunks/663-51b2255b44a34ef1.js","859","static/chunks/859-a35e7762c81aaa64.js","875","static/chunks/875-cc7c8e7d246512a0.js","181","static/chunks/app/ilceler/page-d9f007cc16c18202.js"],""]
+13:I[8955,["169","static/chunks/169-0ce0a9fc27ac9e97.js","934","static/chunks/934-09177b6239e61bef.js","663","static/chunks/663-51b2255b44a34ef1.js","177","static/chunks/app/layout-9848f8de515108b6.js"],"Footer"]
+:HL["/eskisehir-masasi/_next/static/css/5a58743b8b1171e7.css","style"]
+7:X
+f:X
+f:C
+0:{"buildId":"MCiF6o5TcaG4XiEr6LrMR","data":[{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"title":"Beylikova","description":"Beylikova ilçesinden belediye, kaymakamlık ve yerel gündem haberleri.","items":[{"id":"beylikova-haber","slug":"beylikova-haber","title":"Beylikova’da bağımlılıkla mücadele eğitimi","summary":"Beylikova’da kamu personeli, muhtarlar, esnaf ve vatandaşlar için 7 Şubat 2025’te bağımlılıkla mücadele eğitimi düzenlendi.","body":["Beylikova Kaymakamlığı arşivinde yer alan habere göre, 7 Şubat 2025’te ilçede madde bağımlılığı ve zararlı alışkanlıklarla mücadele konusunda eğitim verildi. Programa kamu kurumlarında çalışanlar, muhtarlar, esnaf ve vatandaşlar katıldı.","Eğitimi Eskişehir İl Emniyet Müdürlüğü Narkotik Suçlarla Mücadele Şube Müdürlüğü görevlileri gerçekleştirdi. Çalışma, 2024–2028 dönemini kapsayan il strateji belgesi ve eylem planı kapsamında yapıldı."],"date":"2025-02-07","source":"Beylikova Kaymakamlığı","sourceUrl":"https://www.beylikova.gov.tr/madde-bagimliligi-ve-diger-zararli-aliskanliklarla-mucadele-egitimi","image":"/eskisehir-masasi/news/beylikova-haber.webp","imageCredit":"Beylikova Kaymakamlığı","categories":["eskisehir","saglik"],"district":"beylikova","featured":false,"isArchive":true}],"basePath":"/ilceler/beylikova","children":["$","div",null,{"className":"source-links","children":["$","a",null,{"href":"https://www.beylikova.gov.tr/","target":"_blank","rel":"noopener noreferrer","children":["Beylikova"," Kaymakamlığı"]}]}]}],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":"$@6","staleTime":"$7","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L8",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L9",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Beylikova Haberleri | Eskişehir Masası"}],["$","meta","1",{"name":"description","content":"Eskişehir ve 14 ilçesinden haberler, resmi kurum açıklamaları, kültür sanat, spor ve YouTube canlı yayınları."}],["$","link","2",{"rel":"shortcut icon","href":"/eskisehir-masasi/favicon.svg"}],["$","link","3",{"rel":"icon","href":"/eskisehir-masasi/favicon.svg"}],["$","$La","4",{}]]}]}]}],null]}],"isPartial":"$@b","staleTime":"$7","varyParams":null},{"rsc":["$","$1","c",{"children":[null,["$","$Lc",null,{"parallelRouterKey":"children","template":["$","$Ld",null,{}]}]]}],"isPartial":"$@e","staleTime":"$7","varyParams":"$f"},{"rsc":["$","$1","c",{"children":[null,["$","$Lc",null,{"parallelRouterKey":"children","template":["$","$Ld",null,{}]}]]}],"isPartial":"$@10","staleTime":"$7","varyParams":"$f"},{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/eskisehir-masasi/_next/static/css/5a58743b8b1171e7.css","precedence":"next"}]],["$","html",null,{"lang":"tr","children":["$","body",null,{"children":[["$","a",null,{"className":"skip-link","href":"#icerik","children":"İçeriğe geç"}],["$","$L11",null,{}],["$","$Lc",null,{"parallelRouterKey":"children","template":["$","$Ld",null,{}],"notFound":[["$","main",null,{"id":"icerik","className":"container page-content","children":[["$","div",null,{"className":"page-heading","style":{"marginTop":45},"children":[["$","h1",null,{"children":"Bu sayfa bulunamadı."}],["$","p",null,{"children":"Haber taşınmış olabilir. Arama yapabilir veya güncel haberlere dönebilirsiniz."}]]}],["$","$L12",null,{"href":"/","className":"red-button","children":"Ana sayfaya dön"}]]}],[]]}],["$","$L13",null,{}]]}]}]]}],"isPartial":"$@14","staleTime":"$7","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@15","rootVaryParams":null,"needsRuntimeRequest":"$@16"}
+5:null
+7:300
+16:true
+7:C
+15:0
+b:"$undefined"
+e:"$undefined"
+10:"$undefined"
+14:"$undefined"
+6:"$undefined"
