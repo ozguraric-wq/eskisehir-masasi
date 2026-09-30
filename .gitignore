@@ -47,3 +47,6 @@ next-env.d.ts
 
 # Incremental TypeScript build cache
 *.tsbuildinfo
+
+# Isolated GitHub Pages build
+/.github-pages-build/

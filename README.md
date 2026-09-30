@@ -1,8 +1,10 @@
 # Eskişehir Masası
 
-Proje adresi: https://eskisehir-masasi.ozgurarc.chatgpt.site (özel erişim).
+GitHub Pages adresi: https://ozguraric-wq.github.io/eskisehir-masasi/
 
-Bu proje sunucuda çalışan Vinext/Cloudflare Worker uygulaması ve D1 veritabanı kullanır. GitHub kaynak kod deposudur; GitHub Pages bu sunucu ve veritabanı işlevlerini çalıştırmaz.
+Tam sunucu sürümü: https://eskisehir-masasi.ozgurarc.chatgpt.site (özel erişim).
+
+Ana uygulama Vinext/Cloudflare Worker ve D1 veritabanı kullanır. Aynı tasarım ve içerikten GitHub Pages için ayrı bir statik yayın üretilir.
 
 Yerel haber sitesi. İlk içerik seçkisi 30 Eylül 2026 tarihinde doğrulanan resmi kamu kurumu sayfalarından derlenmiştir. 34 haber, 14 ilçe, 15 ana kategori, fotoğraf galerileri ve 5 resmi video bulunur. Eski kaynaklar tarihleri korunarak arşiv olarak belirtilir.
 
@@ -26,3 +28,16 @@ Künye ve yayıncı iletişim bilgileri yayımlamadan önce tamamlanmalıdır. �
 ## Geliştirme
 
 Kurulum ve yayın için proje Sites akışını kullanır. Veritabanı şeması `db/schema.ts`, artımlı şema dosyaları `drizzle/` içindedir. Kod kontrolü `node node_modules/typescript/bin/tsc --noEmit` ile yapılabilir.
+
+## GitHub Pages yayını
+
+- Kaynak kod: `main`; yayımlanmış statik dosyalar: `gh-pages`.
+- GitHub Settings → Pages → Deploy from a branch → `gh-pages` → `/(root)`.
+- Yeniden üretmek için Node 22.13+ ve depoda sabitlenen pnpm sürümüyle `pnpm install --frozen-lockfile`, ardından `pnpm build:pages` çalıştırın.
+- Çıktı `out/github-pages/` klasörüdür. Bu klasörün tüm içeriğini, `.nojekyll` dahil, `gh-pages` dalının köküne yayımlayın.
+- Haber, kategori, ilçe, arama, sayfalama, fotoğraf galerisi, video, paylaşım, RSS ve site haritası GitHub adresinde çalışır.
+- Yorum, tepki ve iletişim kaydı D1 gerektirir; GitHub sürümünde bu gönderim formları gösterilmez. Tam sunucu uygulamasının API ve form kodları korunmuştur.
+- GitHub yayınındaki YouTube kanal/yayın kimlikleri `data/live.json` dosyasından alınır. Kimlikleri güncelledikten sonra statik yayını yeniden üretin.
+- `main` içeriğini değiştirmek tek başına statik yayını yenilemez; yukarıdaki üretim/yayımlama adımı gerekir.
+
+`build:pages`, `.github-pages-build/` içinde ayrı bir Next.js statik export hazırladığı için asıl uygulamanın sunucu dosyalarını değiştirmez.
